@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class SampleTest {
 
-
+private Sample sample = new Sample();
 
     @ParameterizedTest
     @CsvSource({
@@ -15,7 +15,17 @@ class SampleTest {
         "0, 3, 3",
     })
     void add_behaves_as_expected(int a, int b, int expectedResult ) {
-        int result = Sample.op(Sample.Operation.ADD,a, b);
+        int result = sample.op(Sample.Operation.ADD,a, b);
+        Assertions.assertThat(result).isEqualTo(expectedResult);
+    }
+    @ParameterizedTest
+    @CsvSource({
+        "10, 5, 50",
+        "0, 5, 0",
+    })
+    void multi_behaves_as_expected(int a, int b, int expectedResult ) {
+
+        int result = sample.op(Sample.Operation.MULT,a, b);
         Assertions.assertThat(result).isEqualTo(expectedResult);
     }
     
@@ -25,7 +35,7 @@ class SampleTest {
         int divisor = 0;
 
         Assertions.assertThatExceptionOfType(NullPointerException.class)
-            .isThrownBy(() -> Sample.op(null,dividend, divisor));
+            .isThrownBy(() -> sample.op(null,dividend, divisor));
     }
 
     @Test
@@ -33,7 +43,7 @@ class SampleTest {
         int dividend = 10;
         int divisor = 2;
 
-        int quotient = Sample.divide(dividend, divisor);
+        int quotient = sample.divide(dividend, divisor);
 
         Assertions.assertThat(quotient).as("quotient of 10 / 2")
             .isEqualTo(5);
